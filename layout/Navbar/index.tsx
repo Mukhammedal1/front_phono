@@ -10,22 +10,27 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/createAdvertisement"); // bu yerga kerakli page'ni yozi
+    router.push("/createAdvertisement");
   };
+
+  const handleClickHomePage = () => {
+    router.push("/home")
+  }
+
   return (
     <header>
       <div className="container">
         <NavbarWrapper>
-          <h2>Phono</h2>
+          <h2 onClick={handleClickHomePage}>Phono</h2>
           <NavbarLink>
-            <a className="link-content">
+            <a href="/chat" className="link-content">
               <HiOutlineMailOpen />
               <span>Сообщения</span>
             </a>
-            <a className="link-content">
+            <a href="/favorites" className="link-content">
               <GrFavorite />
             </a>
-            <a className="link-content">
+            <a href="/profile" className="link-content">
               <FaRegUser />
               <span>Ваш профиль</span>
             </a>

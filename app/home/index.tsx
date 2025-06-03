@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { HomeWrapper } from "./Home.styled";
 import { VscSettings } from "react-icons/vsc";
 import { SearchButton } from "../../components/Button/Button.style";
@@ -171,13 +171,18 @@ const Home = () => {
         "1 680 000 UZS",
       ],
     },
-    // { imgs: '/images/phono.svg', labels: ['Xiaomi Redmi Note 12', 'Состояние: Новый', 'Память: 64 GB', '1 680 000 UZS']},
   ];
 
   const router = useRouter();
 
   const handleClick = (id: number) => {
     router.push(`/productDetail/${id}`);
+  };
+
+  const productSectionRef = useRef<HTMLDivElement>(null)
+
+  const scrollToProducts = () => {
+    productSectionRef.current?.scrollIntoView({behavior: "smooth"});
   };
 
   return (
@@ -192,7 +197,7 @@ const Home = () => {
           <SearchButton>Поиск</SearchButton>
         </div>
         <h3>Категории</h3>
-        <div className="cards-group container">
+        <div onClick={scrollToProducts} className="cards-group container">
           {images.map((item, i) => (
             <div key={i} className="card-container">
               {/* Card komponenti */}
@@ -203,7 +208,7 @@ const Home = () => {
           ))}
         </div>
         <h3>Объявления</h3>
-        <div className="product-cards container">
+        <div className="product-cards container" ref={productSectionRef}>
           {phone.map((item, i) => (
             <div
               onClick={() => handleClick(14)}
@@ -243,12 +248,12 @@ const Home = () => {
 
   useEffect(() => {
     // Brendlarni olish
-    axios.get('http://3.72.3.67:3000/api/brand')
+    axios.get('http://3.72.3.67:4007/api/brand')
       .then(res => setBrands(res.data))
       .catch(err => console.error('Brand fetch error:', err));
 
     // Telefonlarni olish
-    axios.get('http://3.72.3.67:3000/api/phone')
+    axios.get('http://3.72.3.67:4007/api/phone')
       .then(res => setPhones(res.data))
       .catch(err => console.error('Phone fetch error:', err));
   }, []);
@@ -271,7 +276,7 @@ const Home = () => {
           {brands.map((item: any, i: number) => (
             <div key={i} className="card-container">
               <Card
-                img={`http://3.72.3.67:3000${item.image}`}
+                img={`http://3.72.3.67:4007${item.image}`}
                 alt={item.name}
               />
               <p>{item.name}</p>
@@ -285,7 +290,7 @@ const Home = () => {
           {phones.map((item: any, i: number) => (
             <div key={i} className='product-container'>
               <LargeCard
-                img={`http://3.72.3.67:3000${item.image}`}
+                img={`http://3.72.3.67:4007${item.image}`}
                 alt={item.title}
                 labels={item.labels || []}
               />
