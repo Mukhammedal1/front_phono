@@ -5,7 +5,7 @@ export const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 56px;
+  gap: 30px;
   margin-top: 50px;
 `;
 
@@ -254,4 +254,19 @@ export const DescriptionSection = styled.div`
     color: black;
     font-size: 16px;
   }
+`;
+
+export const ProductsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+`;
+
+export const ProductsWrapper2 = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 25px;
 `;

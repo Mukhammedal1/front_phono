@@ -18,6 +18,8 @@ import {
   PriceWrapper,
   ProductDetailWrapper,
   ProductSectionWrapper,
+  ProductsWrapper,
+  ProductsWrapper2,
   SearchWrapper,
   Tab,
   TabsContainer,
@@ -28,7 +30,8 @@ import {
 } from "./productDetail.style";
 import ImageSlider from "./components/imageSlider";
 import { useRouter } from "next/router";
-import { useGetPhoneById } from "../../hooks";
+import { useGetAllPhones, useGetPhoneById } from "../../hooks";
+import ProductCard from "../../components/productCard";
 
 interface Review {
   id: number;
@@ -43,6 +46,14 @@ const ProductDetail = () => {
   const [text, setText] = useState("Показать номер");
   const [activeTab, setActiveTab] = useState("description");
   const [liked, setLiked] = useState(false);
+  const { data: phones2 } = useGetAllPhones();
+  const router = useRouter();
+
+  const handleProductClick = (id: number) => {
+    router.push(`/productDetail/${id}`);
+  };
+
+  const phones = phones2?.slice(0, 8);
 
   const handleLikeClick = () => {
     setLiked(!liked);
@@ -194,6 +205,18 @@ const ProductDetail = () => {
             ))}
         </DescriptionSection>
       </MainTabsWrapper>
+      <ProductsWrapper>
+        <h1>Вам может понравиться</h1>
+        <ProductsWrapper2>
+          {phones?.map((phone: any) => (
+            <ProductCard
+              onClick={() => handleProductClick(phone.id)}
+              {...phone}
+              key={phone.id}
+            />
+          ))}
+        </ProductsWrapper2>
+      </ProductsWrapper>
     </MainWrapper>
   );
 };

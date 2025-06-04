@@ -13,13 +13,14 @@ type Props = {
 };
 
 export default function ImageSlider({ images }: Props) {
+  const validImages = images.filter((img) => img?.url);
   const settings = {
-    dots: true,
-    infinite: true,
+    dots: validImages.length > 1,
+    infinite: validImages.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: validImages.length > 1,
   };
 
   return (

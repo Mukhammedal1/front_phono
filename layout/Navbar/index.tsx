@@ -14,8 +14,8 @@ const Navbar = () => {
   };
 
   const handleClickHomePage = () => {
-    router.push("/home")
-  }
+    router.push("/home");
+  };
 
   return (
     <header>

@@ -1,6 +1,7 @@
 import { AuthPage, HomePage } from "@/app";
 import Advertisement from "../app/advertisement";
 import ProductDetail from "../app/productDetail";
+import ProductCard from "../components/productCard";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
     // <main>
     //   {/* <HomePage /> */}
     //   {/* <Advertisement/> */}
-    //   {/* <ProductDetail/> */}
+    // <ProductDetail />
     //   {/* <AuthPage/> */}
     // </main>
   );
