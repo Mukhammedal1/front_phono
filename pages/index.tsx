@@ -1,32 +1,9 @@
-import { AuthPage, HomePage } from "@/app";
-import Advertisement from "../app/advertisement";
-import ProductDetail from "../app/productDetail";
-import ProductCard from "../components/productCard";
+import React from "react";
+import { HomePage } from "../app";
+import Auth from "../app/Auth";
 
-export default function Home() {
-  return (
-    <AuthPage />
-    // <main>
-    //   {/* <HomePage /> */}
-    //   {/* <Advertisement/> */}
-    // <ProductDetail />
-    //   {/* <AuthPage/> */}
-    // </main>
-  );
+function Home() {
+  return <Auth />;
 }
 
-// import { AuthPage } from "../app";
-// import type { ReactElement } from "react";
-
-// export default function Auth() {
-//   return (
-//     <main>
-//       <AuthPage />
-//     </main>
-//   );
-// }
-
-// // Bu sahifa layoutsiz bo‘ladi
-// Auth.getLayout = function PageLayout(page: ReactElement) {
-//   return page;
-// };
+export default Home;

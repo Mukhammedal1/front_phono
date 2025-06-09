@@ -96,6 +96,7 @@ export const ThumbnailsRow = styled.div`
     width: 100%;
     height: auto;
     object-fit: contain;
+    border-radius: 8px;
   }
 `;
 
