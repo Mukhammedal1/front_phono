@@ -3,7 +3,7 @@ import { HomePage } from "../app";
 import Auth from "../app/Auth";
 
 function Home() {
-  return <Auth />;
+  return <HomePage />;
 }
 
 export default Home;

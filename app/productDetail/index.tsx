@@ -32,6 +32,8 @@ import ImageSlider from "./components/imageSlider";
 import { useRouter } from "next/router";
 import { useGetAllPhones, useGetPhoneById } from "../../hooks";
 import ProductCard from "../../components/productCard";
+import LocationIcon from "../../icons/Location-icon";
+import ChatIcon from "../../icons/Chat-icon";
 
 interface Review {
   id: number;
@@ -121,14 +123,14 @@ const ProductDetail = () => {
               )}
             </PriceWrapper>
             <LocationWrapper>
-              <img src="/locat.png" alt="" />
+              <LocationIcon/>
               <p>
                 {phoneData?.Region?.name} {phoneData?.District?.name}
               </p>
             </LocationWrapper>
             <ButtonWrapper>
               <ChatButtonWrapper>
-                <img src="/chat.png" alt="" />
+                <ChatIcon/>
                 Написать
               </ChatButtonWrapper>
               <button onClick={handleClick}>{text}</button>
