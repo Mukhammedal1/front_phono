@@ -634,7 +634,6 @@ const UnreadBadge = styled.div`
   justify-content: center;
   font-size: 12px;
   font-weight: 500;
-  /* padding: 0 6px; */
 `
 
 const ChatWindow = styled.div`

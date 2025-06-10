@@ -187,6 +187,7 @@ export const ChatButtonWrapper = styled.div`
   height: 48px;
   border-radius: 8px;
   border: 1px solid #4e46b4;
+  cursor: pointer;
   color: #4e46b4;
   padding: 12px 16px;
 `;
