@@ -31,6 +31,10 @@ const Home = () => {
     router.push(`/productDetail/${id}`);
   };
 
+  const handleClickFilter = () => {
+    router.push(`/filter`);
+  };
+
   const productSectionRef = useRef<HTMLDivElement>(null);
 
   const scrollToProducts = () => {
@@ -46,7 +50,7 @@ const Home = () => {
           <IoIosSearch className="searchIcon" />
           <input type="text" placeholder="Type e.g Slots games" />
           <div className="settings-icon">
-            <VscSettings />
+            <VscSettings onClick={handleClickFilter} />
           </div>
           <SearchButton>Поиск</SearchButton>
         </div>
