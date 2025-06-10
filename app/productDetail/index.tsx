@@ -41,6 +41,7 @@ import FilterIcon from "../../icons/filter-icon";
 import LikeIcon from "../../icons/like-icon";
 import RedLikeIcon from "../../icons/red-like-icon";
 import TelIcon from "../../icons/tel-icon";
+import ChatModal from "../../components/Chat";
 
 interface Review {
   id: number;
@@ -55,8 +56,22 @@ const ProductDetail = () => {
   const [telText, setTelText] = useState(false);
   const [activeTab, setActiveTab] = useState("description");
   const [liked, setLiked] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const { data: phones2 } = useGetAllPhones();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isChatOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup function to reset body scroll when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isChatOpen]);
 
   const handleProductClick = (id: number) => {
     router.push(`/productDetail/${id}`);
@@ -68,7 +83,7 @@ const ProductDetail = () => {
     setLiked(!liked);
   };
 
-  console.log(phoneData);
+
   const images = [
     { url: phoneData?.Images[0]?.url },
     { url: phoneData?.Images[4]?.url },
@@ -82,6 +97,15 @@ const ProductDetail = () => {
   const handleClick = () => {
     setTelText(!telText);
   };
+
+  const handleChat = () => {
+    setIsChatOpen(true);
+  };
+
+  const handleCloseChat = () => {
+    setIsChatOpen(false);
+  };
+
   return (
     <MainWrapper className="container">
       <SearchWrapper>
@@ -142,8 +166,10 @@ const ProductDetail = () => {
               </p>
             </LocationWrapper>
             <ButtonWrapper>
-              <ChatButtonWrapper>
-                <ChatIcon />
+              {/* <ChatButtonWrapper>
+                <ChatIcon /> */}
+              <ChatButtonWrapper onClick={() => handleChat()}>
+                <ChatIcon/>
                 Написать
               </ChatButtonWrapper>
               {!telText ? (
@@ -241,6 +267,16 @@ const ProductDetail = () => {
           ))}
         </ProductsWrapper2>
       </ProductsWrapper>
+      <ChatModal 
+        isOpen={isChatOpen} 
+        onClose={handleCloseChat} 
+        productOwner={phoneData?.User} 
+        product={{
+          name: phoneData?.title,
+          image: phoneData?.Images[0]?.url,
+          price: `${phoneData?.price} ${phoneData?.Currency?.name}`
+        }}
+      />
     </MainWrapper>
   );
 };
