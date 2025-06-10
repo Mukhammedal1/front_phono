@@ -10,6 +10,14 @@ import AddressSection from "./components/addressSection";
 import PhoneSection from "./components/phoneSection";
 import SubmitSection from "./components/submitSection";
 import MemorySection from "./components/memorySection";
+import {
+  getBrands,
+  getColors,
+  getCurrency,
+  getDistrict,
+  getModels,
+  getRegions,
+} from "../../api";
 
 const Advertisement = () => {
   const [formData, setFormData] = useState({
@@ -36,6 +44,30 @@ const Advertisement = () => {
   });
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        await Promise.all([
+          getBrands(),
+          getRegions(),
+          getColors(),
+          getCurrency(),
+          getModels(),
+          getDistrict(),
+        ]);
+
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Xatolik:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
+
+  if (isLoading) return <div className="spinner"></div>;
 
   return (
     <AdvWrapper className="container">

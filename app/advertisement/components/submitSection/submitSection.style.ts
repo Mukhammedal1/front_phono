@@ -6,8 +6,6 @@ export const SectionWrapper = styled.div`
   align-items: center;
   gap: 50px;
 
-
-
   button {
     width: 210px;
     height: 48px;
@@ -17,6 +15,7 @@ export const SectionWrapper = styled.div`
     background-color: #7b61ff;
     color: white;
     font-size: 17px;
+    cursor: pointer;
   }
   a {
     text-decoration: none;
@@ -25,5 +24,4 @@ export const SectionWrapper = styled.div`
     padding-bottom: 4px;
     font-size: 17px;
   }
-  
 `;

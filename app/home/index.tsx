@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import ProductCard from "../../components/productCard";
 
 const Home = () => {
-  const { data: phones } = useGetAllPhones();
+  const { data: phones, isLoading } = useGetAllPhones();
   const images = [
     { img: "/images/apple.svg", title: "Apple" },
     { img: "/images/huawei.svg", title: "Huawei" },
@@ -37,6 +37,8 @@ const Home = () => {
     productSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  if (isLoading) return <div className="spinner"></div>;
+
   return (
     <div className="container">
       <HomeWrapper>
@@ -63,7 +65,7 @@ const Home = () => {
         <div className="product-cards container" ref={productSectionRef}>
           {phones?.map((phone: any) => (
             // <div key={phone.id} className="product-container container">
-              <ProductCard onClick={() => handleClick(phone.id)} {...phone} />
+            <ProductCard onClick={() => handleClick(phone.id)} {...phone} />
             // </div>
           ))}
         </div>

@@ -23,6 +23,7 @@ import {
   SearchWrapper,
   Tab,
   TabsContainer,
+  TelButtonWrapper,
   TextWrapper,
   ThumbnailsRow,
   TitleWrapper,
@@ -32,6 +33,14 @@ import ImageSlider from "./components/imageSlider";
 import { useRouter } from "next/router";
 import { useGetAllPhones, useGetPhoneById } from "../../hooks";
 import ProductCard from "../../components/productCard";
+import LocationIcon from "../../icons/Location-icon";
+import ChatIcon from "../../icons/Chat-icon";
+import SearchIcon from "../../icons/search-icons";
+import ArrowIcon from "../../icons/arrow-icon";
+import FilterIcon from "../../icons/filter-icon";
+import LikeIcon from "../../icons/like-icon";
+import RedLikeIcon from "../../icons/red-like-icon";
+import TelIcon from "../../icons/tel-icon";
 
 interface Review {
   id: number;
@@ -43,7 +52,7 @@ interface Review {
 const ProductDetail = () => {
   const { productId } = useRouter().query;
   const { data: phoneData, isLoading } = useGetPhoneById(Number(productId));
-  const [text, setText] = useState("Показать номер");
+  const [telText, setTelText] = useState(false);
   const [activeTab, setActiveTab] = useState("description");
   const [liked, setLiked] = useState(false);
   const { data: phones2 } = useGetAllPhones();
@@ -59,8 +68,6 @@ const ProductDetail = () => {
     setLiked(!liked);
   };
 
-  if (isLoading) return <p>Загрузка...</p>;
-
   console.log(phoneData);
   const images = [
     { url: phoneData?.Images[0]?.url },
@@ -70,25 +77,27 @@ const ProductDetail = () => {
     { url: phoneData?.Images[7]?.url },
   ];
 
+  if (isLoading || images.length <= 0) return <div className="spinner"></div>;
+
   const handleClick = () => {
-    setText("+998901234567");
+    setTelText(!telText);
   };
   return (
     <MainWrapper className="container">
       <SearchWrapper>
         <InputWrapper>
-          <img src="/search.png" alt="" />
+          <SearchIcon />
           <input type="text" placeholder="Type e.g Slots games" />
         </InputWrapper>
         <ParamWrapper>
-          <img src="/param.png" alt="" />
+          <FilterIcon style={{ cursor: "pointer" }} />
         </ParamWrapper>
         <button>Поиск</button>
       </SearchWrapper>
       <ProductSectionWrapper>
         <TextWrapper>
           <p>Главная</p>
-          <img src="/arrow.png" alt="" />
+          <ArrowIcon />
           <p>Объявления</p>
         </TextWrapper>
         <ProductDetailWrapper>
@@ -103,11 +112,17 @@ const ProductDetail = () => {
           <DetailWrapper>
             <TitleWrapper>
               <p>{phoneData?.title}</p>
-              <img
-                src={liked ? "/redlike.png" : "/like.png"}
-                alt=""
-                onClick={handleLikeClick}
-              />
+              {liked ? (
+                <LikeIcon
+                  onClick={handleLikeClick}
+                  style={{ cursor: "pointer" }}
+                />
+              ) : (
+                <RedLikeIcon
+                  onClick={handleLikeClick}
+                  style={{ cursor: "pointer" }}
+                />
+              )}
             </TitleWrapper>
             <PriceWrapper>
               <Price2Wrapper>
@@ -121,17 +136,26 @@ const ProductDetail = () => {
               )}
             </PriceWrapper>
             <LocationWrapper>
-              <img src="/locat.png" alt="" />
+              <LocationIcon />
               <p>
                 {phoneData?.Region?.name} {phoneData?.District?.name}
               </p>
             </LocationWrapper>
             <ButtonWrapper>
               <ChatButtonWrapper>
-                <img src="/chat.png" alt="" />
+                <ChatIcon />
                 Написать
               </ChatButtonWrapper>
-              <button onClick={handleClick}>{text}</button>
+              {!telText ? (
+                <button onClick={handleClick}>Показать номер</button>
+              ) : (
+                <TelButtonWrapper onClick={handleClick}>
+                  <TelIcon />
+                  +998908521235
+                </TelButtonWrapper>
+              )}
+
+              {/* <button onClick={handleClick}></button> */}
             </ButtonWrapper>
             <PhoneInfoWrapper>
               <InfoDetailWrapper>

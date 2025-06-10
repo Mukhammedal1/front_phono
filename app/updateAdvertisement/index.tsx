@@ -80,7 +80,7 @@ const AdvertisementOne = () => {
     }
   }, [phoneData]);
 
-  if (isLoading) return <p>Загрузка...</p>;
+  if (isLoading) return <div className="spinner"></div>;
 
   return (
     <AdvWrapper className="container">
