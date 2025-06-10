@@ -7,3 +7,4 @@ export * from "./useCurrency";
 export * from "./useColor";
 export * from "./useImages";
 export * from "./usePhone";
+export * from "./useAuth";

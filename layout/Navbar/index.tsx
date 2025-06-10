@@ -30,7 +30,7 @@ const Navbar = () => {
             <a href="/favorites" className="link-content">
               <GrFavorite />
             </a>
-            <a href="/Auth" className="link-content">
+            <a href="/profile" className="link-content">
               <FaRegUser />
               <span>Ваш профиль</span>
             </a>
