@@ -79,10 +79,6 @@ const ProductDetail = () => {
 
   const phones = phones2?.slice(0, 8);
 
-  const handleLikeClick = () => {
-    setLiked(!liked);
-  };
-
   const images = [
     { url: phoneData?.Images[0]?.url },
     { url: phoneData?.Images[4]?.url },
@@ -103,6 +99,10 @@ const ProductDetail = () => {
 
   const handleCloseChat = () => {
     setIsChatOpen(false);
+  };
+
+  const handleLikeClick = () => {
+    setLiked(!liked);
   };
 
   return (
@@ -135,7 +135,7 @@ const ProductDetail = () => {
           <DetailWrapper>
             <TitleWrapper>
               <p>{phoneData?.title}</p>
-              {liked ? (
+              {!liked ? (
                 <LikeIcon
                   onClick={handleLikeClick}
                   style={{ cursor: "pointer" }}
@@ -161,7 +161,7 @@ const ProductDetail = () => {
             <LocationWrapper>
               <LocationIcon />
               <p>
-                {phoneData?.Region?.name} {phoneData?.District?.name}
+                {phoneData?.Region?.name} jn {phoneData?.District?.name}
               </p>
             </LocationWrapper>
             <ButtonWrapper>

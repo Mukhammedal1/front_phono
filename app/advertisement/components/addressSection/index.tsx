@@ -12,7 +12,6 @@ const AddressSection = (props: any) => {
   const [isMapLoading, setIsMapLoading] = useState(true);
   const [clicked, setClicked] = useState(true);
   const { data: regions } = useRegions();
-  const { data: districts } = useDistrict();
 
   const defaultCenter: [number, number] = [41.3111, 69.2797];
 
@@ -84,11 +83,13 @@ const AddressSection = (props: any) => {
               required={clicked}
             >
               <option value="">Выберите город или район</option>
-              {districts?.map((district) => (
-                <option key={district.id} value={district.id}>
-                  {district.name}
-                </option>
-              ))}
+              {regions
+                ?.find((region) => region.id === formData.regionId)
+                ?.Districts.map((district) => (
+                  <option key={district.id} value={district.id}>
+                    {district.name}
+                  </option>
+                ))}
             </select>
           </SectionWrapper>
         </>

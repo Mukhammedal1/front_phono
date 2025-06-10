@@ -82,11 +82,13 @@ const BrandSection = (props: any) => {
               }}
             >
               <option value="">Выберите модель телефона</option>
-              {models?.map((model) => (
-                <option key={model.id} value={model.id}>
-                  {model.name}
-                </option>
-              ))}
+              {models
+                ?.filter((model) => model.brandId === formData.brandId)
+                .map((model) => (
+                  <option key={model.id} value={model.id}>
+                    {model.name}
+                  </option>
+                ))}
             </select>
           </SectionWrapper>
         </>
