@@ -11,6 +11,7 @@ export const NavbarWrapper = styled.div`
   & > h2 {
     color: white;
     font-size: 32px;
+    cursor: pointer;
     font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
   }
@@ -27,6 +28,7 @@ export const NavbarLink = styled.div`
     gap: 12px;
     color: white;
     text-decoration: none;
+    cursor: pointer;
 
     svg {
       font-size: 24px;

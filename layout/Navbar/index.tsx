@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   const handleClickHomePage = () => {
-    router.push("/home");
+    router.push("/");
   };
 
   return (
@@ -23,7 +23,7 @@ const Navbar = () => {
         <NavbarWrapper>
           <h2 onClick={handleClickHomePage}>Phono</h2>
           <NavbarLink>
-            <a href="/chat" className="link-content">
+            <a href="/profile/chat" className="link-content">
               <HiOutlineMailOpen />
               <span>Сообщения</span>
             </a>
