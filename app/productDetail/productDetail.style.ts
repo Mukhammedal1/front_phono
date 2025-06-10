@@ -23,6 +23,7 @@ export const SearchWrapper = styled.div`
     border: none;
     background-color: #4e46b4;
     color: white;
+    cursor: pointer;
   }
 `;
 
@@ -76,6 +77,7 @@ export const ProductDetailWrapper = styled.div`
 export const TextWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 `;
@@ -129,14 +131,14 @@ export const TitleWrapper = styled.div`
 export const PriceWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  gap: 50px;
+  gap: 24px;
 `;
 
 export const Price2Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  width: 160px;
+  gap: 15px;
   font-size: 24px;
   font-weight: 600;
 `;
@@ -175,6 +177,7 @@ export const ButtonWrapper = styled.div`
     color: white;
     background-color: #4e46b4;
     padding: 12px 16px;
+    cursor: pointer;
   }
 `;
 
@@ -190,6 +193,22 @@ export const ChatButtonWrapper = styled.div`
   cursor: pointer;
   color: #4e46b4;
   padding: 12px 16px;
+  cursor: pointer;
+`;
+
+export const TelButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 230px;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid #4e46b4;
+  color: white;
+  background-color: #4e46b4;
+  padding: 12px 16px;
+  cursor: pointer;
 `;
 
 export const PhoneInfoWrapper = styled.div`
@@ -268,7 +287,7 @@ export const ProductsWrapper = styled.div`
 
 export const ProductsWrapper2 = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 25px;
+  gap: 35px;
 `;

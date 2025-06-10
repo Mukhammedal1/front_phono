@@ -53,8 +53,8 @@ export const SectionWrapper2 = styled.div`
     height: 48px;
     border-radius: 8px;
     border: none;
-    font-size: 18px;
+    font-size: 16px;
     padding: 0px 5px;
-    opacity: 0.5;
+    opacity: 0.7;
   }
 `;

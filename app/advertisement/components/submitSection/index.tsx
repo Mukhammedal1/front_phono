@@ -9,7 +9,7 @@ import {
 } from "../../../../hooks";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
-import { Button, Dialog, Typography } from "@mui/material";
+import { Button, CircularProgress, Dialog, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
@@ -27,51 +27,73 @@ const SubmitSection = (props: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDelete, setisDelete] = useState(true);
   const [deleted, setDeleted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = () => {
+    setLoading(true);
     if (!formData.brandId && !formData.brand) {
       toast.error("Пожалуйста, выберите бренд");
+      setLoading(false);
       return;
     }
     if (!formData.modelId && !formData.model) {
       toast.error("Пожалуйста, выберите модель");
+      setLoading(false);
+
       return;
     }
     if (!formData.year) {
       toast.error("Пожалуйста, выберите год выпуска");
+      setLoading(false);
       return;
     }
     if (images.length == 0) {
       toast.error("Пожалуйста, загрузите как минимум одно фото");
+      setLoading(false);
+
       return;
     }
 
     if (!formData.description) {
       toast.error("Пожалуйста, введите описание");
+      setLoading(false);
+
       return;
     }
     if (formData.price == 0) {
       toast.error("Пожалуйста, введите цену");
+      setLoading(false);
+
       return;
     }
     if (!formData.ram) {
       toast.error("Пожалуйста, введите RAM");
+      setLoading(false);
+
       return;
     }
     if (!formData.rom) {
       toast.error("Пожалуйста, введите ROM");
+      setLoading(false);
+
       return;
     }
     if (!formData.colorId) {
       toast.error("Пожалуйста, выберите цвет");
+      setLoading(false);
+
       return;
     }
     if (!formData.regionId) {
       toast.error("Пожалуйста, выберите регион");
+      setLoading(false);
+
       return;
     }
     if (!formData.districtId) {
       toast.error("Пожалуйста, выберите город или район");
+      setLoading(false);
+
       return;
     }
     if (isUpdate && phoneId) {
@@ -102,18 +124,22 @@ const SubmitSection = (props: any) => {
                 onSuccess: () => {
                   setisDelete(false);
                   setIsModalOpen(true);
+                  setLoading(false);
                 },
                 onError: (err) => {
                   console.error("Rasm yuklashda xatolik:", err);
+                  setLoading(false);
                 },
               });
             } else {
               setisDelete(false);
               setIsModalOpen(true);
+              setLoading(false);
             }
           },
           onError: (error) => {
             console.error("Update xatolik:", error);
+            setLoading(false);
           },
         }
       );
@@ -133,13 +159,21 @@ const SubmitSection = (props: any) => {
             uploadImages(form, {
               onSuccess: () => {
                 setIsModalOpen(true);
+                setLoading(false);
               },
-              onError: (err) => console.error("Xatolik rasmda:", err),
+              onError: (err) => {
+                console.error("Xatolik rasmda:", err);
+                setLoading(false);
+              },
             });
+          } else {
+            setLoading(false);
+            toast.error("Telefon yaratishda xatolik yuz berdi");
           }
         },
         onError: (error) => {
           console.error("Xatolik:", error);
+          setLoading(false);
         },
       });
     }
@@ -178,10 +212,46 @@ const SubmitSection = (props: any) => {
         ) : (
           <Link href={`/advertisement/58`}>Предпросмотр</Link>
         )}
-        <button onClick={handleSubmit}>
-          {isUpdate ? "Сохранить изменения" : "Опубликовать"}
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+          }}
+        >
+          {loading ? (
+            <>
+              Загрузка...
+              <CircularProgress size={16} style={{ color: "#fff" }} />
+            </>
+          ) : isUpdate ? (
+            "Сохранить изменения"
+          ) : (
+            "Опубликовать"
+          )}
         </button>
       </SectionWrapper>
+
+      {/* <SectionWrapper>
+        {isUpdate ? (
+          <Link href="#" onClick={handleDelete}>
+            Удалить
+          </Link>
+        ) : (
+          <Link href={`/advertisement/58`}>Предпросмотр</Link>
+        )}
+        <button onClick={handleSubmit} disabled={loading}>
+          {loading
+            ? "Загрузка..." // loading bo'lsa
+            : isUpdate
+            ? "Сохранить изменения"
+            : "Опубликовать"}
+        </button>
+      </SectionWrapper> */}
       <Dialog
         open={isModalOpen}
         onClose={handleModalClose}

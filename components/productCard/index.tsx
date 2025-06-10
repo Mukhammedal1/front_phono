@@ -24,6 +24,7 @@ interface Phone {
   Models: [];
   Brands: [];
   Color: [];
+  Images: [{ id: number; url: string }];
   userId: number;
   Address: [];
   onClick?: () => void;
@@ -32,14 +33,14 @@ interface Phone {
 const ProductCard = (props: Phone) => {
   const [liked, setLiked] = useState(false);
 
-  const handleLikeClick = (e:any) => {
+  const handleLikeClick = (e: any) => {
     e.stopPropagation();
     setLiked(!liked);
   };
 
   return (
     <CardContainerWrapper onClick={props?.onClick}>
-      <img src="/rasm.png" alt="" />
+      <img className="mainImg" src={props?.Images[0]?.url} alt="" />
       <CardTitleWrapper>
         <p>{props?.title}</p>
         <img
