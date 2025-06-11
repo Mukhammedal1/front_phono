@@ -41,6 +41,7 @@ export const HomeWrapper = styled.div`
       border-radius: 8px;
       font-size: 24px;
       width: 48px;
+      cursor: pointer;
       height: 48px;
       background-color: #f5f5f5;
     }

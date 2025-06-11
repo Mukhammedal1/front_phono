@@ -53,6 +53,7 @@ export const FilterButton = styled.button`
 export const SearchButton = styled.button`
   display: flex;
   justify-content: center;
+  cursor: pointer;
   align-items: center;
   width: 79px;
   height: 48px;

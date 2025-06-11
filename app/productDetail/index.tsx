@@ -60,16 +60,19 @@ const ProductDetail = () => {
   const { data: phones2 } = useGetAllPhones();
   const router = useRouter();
 
+
+  // console.log(phoneData)
+  
   useEffect(() => {
     if (isChatOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
 
     // Cleanup function to reset body scroll when component unmounts
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isChatOpen]);
 
@@ -82,7 +85,6 @@ const ProductDetail = () => {
   const handleLikeClick = () => {
     setLiked(!liked);
   };
-
 
   const images = [
     { url: phoneData?.Images[0]?.url },
@@ -169,7 +171,7 @@ const ProductDetail = () => {
               {/* <ChatButtonWrapper>
                 <ChatIcon /> */}
               <ChatButtonWrapper onClick={() => handleChat()}>
-                <ChatIcon/>
+                <ChatIcon />
                 Написать
               </ChatButtonWrapper>
               {!telText ? (
@@ -267,14 +269,14 @@ const ProductDetail = () => {
           ))}
         </ProductsWrapper2>
       </ProductsWrapper>
-      <ChatModal 
-        isOpen={isChatOpen} 
-        onClose={handleCloseChat} 
-        productOwner={phoneData?.User} 
+      <ChatModal
+        isOpen={isChatOpen}
+        onClose={handleCloseChat}
+        productOwner={phoneData?.User}
         product={{
           name: phoneData?.title,
           image: phoneData?.Images[0]?.url,
-          price: `${phoneData?.price} ${phoneData?.Currency?.name}`
+          price: `${phoneData?.price} ${phoneData?.Currency?.name}`,
         }}
       />
     </MainWrapper>
