@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Card,
   InputField,
@@ -23,22 +25,32 @@ function SignIn({ switchToRegister }: { switchToRegister: () => void }) {
     e.preventDefault();
 
     if (!phoneNumber || !password) {
-      setError("Требуется номер телефона и пароль.");
+      toast.error("Требуется номер телефона и пароль.");
       return;
     }
 
     if (!/^\+\d{9,15}$/.test(phoneNumber)) {
-      setError("Номер телефона указан в неправильном формате.");
+      toast.error("Номер телефона указан в неправильном формате.");
       return;
     }
 
-    setError("");
     try {
-      await signIn(phoneNumber, password);
+      const user = await signIn(phoneNumber, password);
       console.log("Login muvaffaqiyatli");
-      router.push("/home");
+      console.log(user);
+
+      localStorage.setItem("user", JSON.stringify({
+        id: user.id,
+        accessToken: user.access_token,
+      }));
+      
+      toast.success("Вход выполнен успешно!");
+      router.push("/");
     } catch (err: any) {
-      setError(err.message || "Произошла ошибка входа.");
+      // Backenddan kelgan xabarni foydalanuvchiga ko'rsatish
+      const errorMessage =
+        err.response?.data?.message?.message || "Неверный номер телефона или пароль.";
+      toast.error(errorMessage);
     }
   };
 

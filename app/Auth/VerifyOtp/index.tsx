@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useVerifyOtp } from '../../../hooks/useVerifyOtp';
 import { Container, Card, Title, InputField, Button, ErrorText, SubText } from './Verify.style';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function VerifyOtp() {
   const router = useRouter();
   const [phone, setPhone] = useState(''); // Telefon raqamini kiritish uchun state
   const [otp, setOtp] = useState(''); // OTP kiritish uchun state
   const { handleVerifyOtp, loading, error } = useVerifyOtp();
-  const [resendTimer, setResendTimer] = useState(60); // Qayta yuborish uchun taymer (soniyalar)
-  const [canResend, setCanResend] = useState(false); // Qayta yuborish tugmasi faolligi
+  const [resendTimer, setResendTimer] = useState(60); // Taymer (soniyalar)
 
   useEffect(() => {
     if (resendTimer > 0) {
@@ -18,42 +19,34 @@ function VerifyOtp() {
       }, 1000);
       return () => clearInterval(timer);
     } else {
-      setCanResend(true); // Taymer tugagandan keyin tugma faollashadi
+      toast.error('Время истекло, попробуйте снова.');
+      router.push('/Auth/signIn'); // Auth sahifasiga yo'naltirish
     }
-  }, [resendTimer]);
+  }, [resendTimer, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!phone || !otp) {
-      console.error('Требуется номер телефона и одноразовый пароль.');
+      toast.error('Требуется номер телефона и одноразовый пароль.');
       return;
     }
 
     try {
       await handleVerifyOtp(phone, otp); // Telefon raqami va OTPni yuborish
-      console.log('Код успешно проверен');
-      router.push('/home'); // Tasdiqlangandan keyin home sahifasiga o'tish
-    } catch (err) {
-      console.error('Oшибка при проверке кода:', err);
+      toast.success('Код успешно подтвержден!');
+      router.push('/Auth'); // Tasdiqlangandan keyin home sahifasiga o'tish
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message || 'Ошибка при подтверждении кода.';
+      toast.error(errorMessage);
     }
   };
 
-  const handleResendOtp = () => {
-    if (!canResend) return;
-    console.log('OTP qayta yuborildi');
-    setResendTimer(60); // Taymerni qayta boshlash
-    setCanResend(false); // Tugmani vaqtinchalik bloklash
-  };
-
-  const handleBackToRegister = () => {
-    router.push('/Auth'); // Register sahifasiga qaytish
-  };
-
   return (
-    <Container className='container'>
+    <Container>
       <Card>
-        <Title>SMS-подтверждение пароля</Title>
+        <Title>Подтверждение OTP</Title>
         <form onSubmit={handleSubmit} className="input-group">
           <InputField
             type="text"
@@ -63,25 +56,14 @@ function VerifyOtp() {
           />
           <InputField
             type="text"
-            placeholder="введите код"
+            placeholder="Введите код"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />
+          {/* Taymerni inputning tagida ko'rsatish */}
+          <SubText>Оставшееся время: {resendTimer} секунд</SubText>
           <Button type="submit" disabled={loading}>
             {loading ? 'Загрузка...' : 'Подтверждение'}
-          </Button>
-          <Button
-            onClick={handleResendOtp}
-            disabled={!canResend}
-            style={{
-              backgroundColor: canResend ? '#5850ec' : '#9ca3af',
-              cursor: canResend ? 'pointer' : 'not-allowed',
-            }}
-          >
-            {canResend ? 'Отправить код повторно' : `Повторно отправить (${resendTimer} секунды)`}
-          </Button>
-          <Button onClick={handleBackToRegister} style={{ backgroundColor: '#f44336' }}>
-            Возвращаться
           </Button>
         </form>
         {error && <ErrorText>{error}</ErrorText>}

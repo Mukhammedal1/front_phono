@@ -62,13 +62,13 @@ const ProductDetail = () => {
   if (isLoading) return <p>Загрузка...</p>;
 
   console.log(phoneData);
-  const images = [
+  const images = phoneData.Images.length ? [
     { url: phoneData?.Images[0]?.url },
     { url: phoneData?.Images[4]?.url },
     { url: phoneData?.Images[5]?.url },
     { url: phoneData?.Images[6]?.url },
     { url: phoneData?.Images[7]?.url },
-  ];
+  ]:[];
 
   const handleClick = () => {
     setText("+998901234567");
