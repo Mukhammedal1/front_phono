@@ -40,7 +40,7 @@ const Advertisement = () => {
     colorId: null,
     regionId: null,
     districtId: null,
-    // userId: 0,
+    userId: null,
   });
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);

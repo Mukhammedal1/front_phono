@@ -3,17 +3,18 @@ import SignIn from "./SignIn";
 import Register from "./Register";
 
 function Auth() {
-  const [isSignIn, setIsSignIn] = useState(true);
+  const [isRegister, setIsSignIn] = useState(true);
 
   return (
     <div style={{ marginTop: "50px" }}>
-      {isSignIn ? (
-        <SignIn switchToRegister={() => setIsSignIn(false)} />
+      {isRegister ? (
+        <Register switchToSignIn={() => setIsSignIn(false)} />
       ) : (
-        <Register switchToSignIn={() => setIsSignIn(true)} />
-      )}
+        <SignIn switchToRegister={() => setIsSignIn(true)} />
+      ) }
     </div>
   );
 }
 
 export default Auth;
+

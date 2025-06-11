@@ -59,6 +59,7 @@ const ProductDetail = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { data: phones2 } = useGetAllPhones();
   const router = useRouter();
+  const selectedPhone = localStorage.getItem("selectedPhoneNumber");
 
   useEffect(() => {
     if (isChatOpen) {
@@ -161,7 +162,7 @@ const ProductDetail = () => {
             <LocationWrapper>
               <LocationIcon />
               <p>
-                {phoneData?.Region?.name} jn {phoneData?.District?.name}
+                {phoneData?.Region?.name}, {phoneData?.District?.name}
               </p>
             </LocationWrapper>
             <ButtonWrapper>
@@ -176,11 +177,9 @@ const ProductDetail = () => {
               ) : (
                 <TelButtonWrapper onClick={handleClick}>
                   <TelIcon />
-                  +998908521235
+                  {selectedPhone}
                 </TelButtonWrapper>
               )}
-
-              {/* <button onClick={handleClick}></button> */}
             </ButtonWrapper>
             <PhoneInfoWrapper>
               <InfoDetailWrapper>

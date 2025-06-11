@@ -29,6 +29,8 @@ const SubmitSection = (props: any) => {
   const [deleted, setDeleted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const selectedPhone = localStorage.getItem("selectedPhoneNumber");
+
   const handleSubmit = () => {
     setLoading(true);
     if (!formData.brandId && !formData.brand) {
@@ -39,7 +41,6 @@ const SubmitSection = (props: any) => {
     if (!formData.modelId && !formData.model) {
       toast.error("Пожалуйста, выберите модель");
       setLoading(false);
-
       return;
     }
     if (!formData.year) {
@@ -50,50 +51,47 @@ const SubmitSection = (props: any) => {
     if (images.length == 0) {
       toast.error("Пожалуйста, загрузите как минимум одно фото");
       setLoading(false);
-
       return;
     }
 
     if (!formData.description) {
       toast.error("Пожалуйста, введите описание");
       setLoading(false);
-
       return;
     }
     if (formData.price == 0) {
       toast.error("Пожалуйста, введите цену");
       setLoading(false);
-
       return;
     }
     if (!formData.ram) {
       toast.error("Пожалуйста, введите RAM");
       setLoading(false);
-
       return;
     }
     if (!formData.rom) {
       toast.error("Пожалуйста, введите ROM");
       setLoading(false);
-
       return;
     }
     if (!formData.colorId) {
       toast.error("Пожалуйста, выберите цвет");
       setLoading(false);
-
       return;
     }
     if (!formData.regionId) {
       toast.error("Пожалуйста, выберите регион");
       setLoading(false);
-
       return;
     }
     if (!formData.districtId) {
       toast.error("Пожалуйста, выберите город или район");
       setLoading(false);
-
+      return;
+    }
+    if (!selectedPhone) {
+      toast.error("Пожалуйста, выберите  номер телефона");
+      setLoading(false);
       return;
     }
     if (isUpdate && phoneId) {
@@ -168,7 +166,7 @@ const SubmitSection = (props: any) => {
             });
           } else {
             setLoading(false);
-            toast.error("Telefon yaratishda xatolik yuz berdi");
+            toast.error("Phone yaratishda xatolik yuz berdi");
           }
         },
         onError: (error) => {

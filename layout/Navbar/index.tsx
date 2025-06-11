@@ -13,6 +13,15 @@ const Navbar = () => {
     router.push("/createAdvertisement");
   };
 
+  const handleUserNavigation = () => {
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    if (userData.accessToken) {
+      router.push("/profile");
+    } else {
+      router.push("/Auth");
+    }
+  };
+
   const handleClickHomePage = () => {
     router.push("/");
   };
@@ -22,15 +31,15 @@ const Navbar = () => {
       <div className="container">
         <NavbarWrapper>
           <h2 onClick={handleClickHomePage}>Phono</h2>
-          <NavbarLink>
-            <a href="/profile/chat" className="link-content">
+          <NavbarLink onClick={handleUserNavigation}>
+            <a href="/chat" className="link-content">
               <HiOutlineMailOpen />
               <span>Сообщения</span>
             </a>
             <a href="/favorites" className="link-content">
               <GrFavorite />
             </a>
-            <a href="/Auth" className="link-content">
+            <a href="/profile" className="link-content">
               <FaRegUser />
               <span>Ваш профиль</span>
             </a>

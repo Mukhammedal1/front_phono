@@ -38,7 +38,7 @@ interface Email {
 
 interface PhoneNumber {
   id: number;
-  number: string;
+  phone: string;
   createdAt: string;
   updatedAt: string;
 }
