@@ -59,6 +59,7 @@ const ProductDetail = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { data: phones2 } = useGetAllPhones();
   const router = useRouter();
+  const selectedPhone = localStorage.getItem("selectedPhoneNumber");
 
 
   // console.log(phoneData)
@@ -82,10 +83,6 @@ const ProductDetail = () => {
 
   const phones = phones2?.slice(0, 8);
 
-  const handleLikeClick = () => {
-    setLiked(!liked);
-  };
-
   const images = [
     { url: phoneData?.Images[0]?.url },
     { url: phoneData?.Images[4]?.url },
@@ -106,6 +103,10 @@ const ProductDetail = () => {
 
   const handleCloseChat = () => {
     setIsChatOpen(false);
+  };
+
+  const handleLikeClick = () => {
+    setLiked(!liked);
   };
 
   return (
@@ -138,7 +139,7 @@ const ProductDetail = () => {
           <DetailWrapper>
             <TitleWrapper>
               <p>{phoneData?.title}</p>
-              {liked ? (
+              {!liked ? (
                 <LikeIcon
                   onClick={handleLikeClick}
                   style={{ cursor: "pointer" }}
@@ -164,7 +165,7 @@ const ProductDetail = () => {
             <LocationWrapper>
               <LocationIcon />
               <p>
-                {phoneData?.Region?.name} {phoneData?.District?.name}
+                {phoneData?.Region?.name}, {phoneData?.District?.name}
               </p>
             </LocationWrapper>
             <ButtonWrapper>
@@ -179,11 +180,9 @@ const ProductDetail = () => {
               ) : (
                 <TelButtonWrapper onClick={handleClick}>
                   <TelIcon />
-                  +998908521235
+                  {selectedPhone}
                 </TelButtonWrapper>
               )}
-
-              {/* <button onClick={handleClick}></button> */}
             </ButtonWrapper>
             <PhoneInfoWrapper>
               <InfoDetailWrapper>

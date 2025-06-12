@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../../../hooks/index';
 import {
   FormContainer,
   FormTitle,
@@ -11,11 +12,9 @@ import {
   Description,
 } from './Register.style';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../../hooks';
 
 function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
   const [formData, setFormData] = useState({ phone: '', password: '', name: '' });
-  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [error, setError] = useState<string | null>(null);
   const { register, loading } = useAuth();
   const router = useRouter();
@@ -23,15 +22,16 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setFormErrors((prev) => ({ ...prev, [name]: '' })); // Xato xabarini o‘chiradi, input o‘zgarganda
+    setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
 
     const phoneRegex = /^\+998\d{9}$/;
     if (!phoneRegex.test(formData.phone)) {
-      setError('Номер телефона имеет неправильный формат (+998901234567)');
+      setError('Номер телефона имеет неправильный формат (например: +998901234567)');
       return;
     }
 
@@ -42,10 +42,14 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
 
     try {
       const data = await register(formData.name, formData.phone, formData.password);
-      console.log('Зарегистрируйтесь успешно:', data);
-      router.push('/home')
-    } catch (err) {
+      console.log('Зарегистрирован успешно:', data);
+      router.push({
+        pathname: '/verifyotp',
+        query: { phone: formData.phone },
+      });
+    } catch (err: any) {
       console.error('Ошибка регистрации:', err);
+      setError(err.message || 'Произошла неизвестная ошибка при регистрации.');
     }
   };
 
@@ -61,8 +65,8 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
             placeholder="Ваше имя"
             value={formData.name}
             onChange={handleChange}
+            required
           />
-          {formErrors.name && <p style={{ color: 'red' }}>{formErrors.name}</p>}
 
           <Input
             type="text"
@@ -70,8 +74,8 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
             placeholder="Номер телефона"
             value={formData.phone}
             onChange={handleChange}
+            required
           />
-          {formErrors.phone && <p style={{ color: 'red' }}>{formErrors.phone}</p>}
 
           <Input
             // type="password"
@@ -79,10 +83,10 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
             placeholder="Пароль"
             value={formData.password}
             onChange={handleChange}
+            required 
           />
-          {formErrors.password && <p style={{ color: 'red' }}>{formErrors.password}</p>}
 
-          <SubmitButton type="submit" disabled={loading}>
+          <SubmitButton type="submit" disabled={loading} style={{ marginTop: '20px' }}>
             {loading ? 'Загрузка...' : 'Зарегистрироваться'}
           </SubmitButton>
         </form>
@@ -92,7 +96,7 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
         </Divider>
 
         <GoogleButton>
-        <svg
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             width="24"
@@ -119,8 +123,15 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
         </GoogleButton>
 
         {error && (
-          <p style={{ color: 'red', textAlign: 'center' }}>
-            {error}
+          <p style={{ color: 'red', textAlign: 'center', marginTop: '15px', padding: '10px', border: '1px solid red', borderRadius: '5px' }}>
+            {error === "Phone number already in use."
+              ? "Этот номер телефона уже зарегистрирован. Пожалуйста, используйте другой номер или войдите в систему."
+              : error}
+            {error === "Phone number already in use." && (
+                <span onClick={switchToSignIn} style={{ color: 'blue', cursor: 'pointer', display: 'block', marginTop: '5px' }}>
+                    Войти
+                </span>
+            )}
           </p>
         )}
       </FormContainer>
