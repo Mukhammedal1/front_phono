@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useAuth } from '../../../hooks/index';
+import { useState } from "react";
+import { useAuth } from "../../../hooks/index";
 import {
   FormContainer,
   FormTitle,
@@ -10,11 +10,17 @@ import {
   GoogleButton,
   Divider,
   Description,
-} from './Register.style';
-import { useRouter } from 'next/router';
+} from "./Register.style";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
-  const [formData, setFormData] = useState({ phone: '', password: '', name: '' });
+  const [formData, setFormData] = useState({
+    phone: "",
+    password: "",
+    name: "",
+  });
   const [error, setError] = useState<string | null>(null);
   const { register, loading } = useAuth();
   const router = useRouter();
@@ -31,25 +37,45 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
 
     const phoneRegex = /^\+998\d{9}$/;
     if (!phoneRegex.test(formData.phone)) {
-      setError('Номер телефона имеет неправильный формат (например: +998901234567)');
+      toast.error(
+        "Номер телефона имеет неправильный формат (например: +998901234567)"
+      );
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Пароль должен быть длиной не менее 6 символов');
+      toast.error("Пароль должен быть длиной не менее 6 символов");
       return;
     }
 
     try {
-      const data = await register(formData.name, formData.phone, formData.password);
-      console.log('Зарегистрирован успешно:', data);
+      const data = await register(
+        formData.name,
+        formData.phone,
+        formData.password
+      );
+      toast.success("Зарегистрирован успешно:");
+      console.log("Зарегистрирован успешно:", data);
       router.push({
-        pathname: '/verifyotp',
+        pathname: "/verifyotp",
         query: { phone: formData.phone },
       });
     } catch (err: any) {
-      console.error('Ошибка регистрации:', err);
-      setError(err.message || 'Произошла неизвестная ошибка при регистрации.');
+      console.log("Полный объект ошибки:", err.message); // To'liq xatolik obyektini tekshirish
+
+      // Xatolik obyektidan xabarni olish
+      const errorMessage =
+        typeof err.message === "string"
+          ? JSON.parse(err.message)?.message?.message || "Неизвестная ошибка"
+          : "Неизвестная ошибка";
+
+      if (errorMessage === "Phone number already in use.") {
+        toast.error("Этот номер телефона уже зарегистрирован.");
+        setError("Этот номер телефона уже зарегистрирован.");
+      } else {
+        toast.error(`Ошибка регистрации: ${errorMessage}`);
+        setError(errorMessage);
+      }
     }
   };
 
@@ -57,8 +83,10 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
     <Card className="container">
       <FormContainer>
         <FormTitle>Регистрация</FormTitle>
-        <Description>Введите свое имя, номер телефона и пароль для входа в систему</Description>
-        <form onSubmit={handleSubmit} className='input-group'>
+        <Description>
+          Введите свое имя, номер телефона и пароль для входа в систему
+        </Description>
+        <form onSubmit={handleSubmit} className="input-group">
           <Input
             type="text"
             name="name"
@@ -83,11 +111,15 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
             placeholder="Пароль"
             value={formData.password}
             onChange={handleChange}
-            required 
+            required
           />
 
-          <SubmitButton type="submit" disabled={loading} style={{ marginTop: '20px' }}>
-            {loading ? 'Загрузка...' : 'Зарегистрироваться'}
+          <SubmitButton
+            type="submit"
+            disabled={loading}
+            style={{ marginTop: "20px" }}
+          >
+            {loading ? "Загрузка..." : "Зарегистрироваться"}
           </SubmitButton>
         </form>
 
@@ -123,22 +155,42 @@ function Register({ switchToSignIn }: { switchToSignIn: () => void }) {
         </GoogleButton>
 
         {error && (
-          <p style={{ color: 'red', textAlign: 'center', marginTop: '15px', padding: '10px', border: '1px solid red', borderRadius: '5px' }}>
+          <p
+            style={{
+              color: "red",
+              textAlign: "center",
+              marginTop: "15px",
+              padding: "10px",
+              border: "1px solid red",
+              borderRadius: "5px",
+            }}
+          >
             {error === "Phone number already in use."
               ? "Этот номер телефона уже зарегистрирован. Пожалуйста, используйте другой номер или войдите в систему."
               : error}
             {error === "Phone number already in use." && (
-                <span onClick={switchToSignIn} style={{ color: 'blue', cursor: 'pointer', display: 'block', marginTop: '5px' }}>
-                    Войти
-                </span>
+              <span
+                onClick={switchToSignIn}
+                style={{
+                  color: "blue",
+                  cursor: "pointer",
+                  display: "block",
+                  marginTop: "5px",
+                }}
+              >
+                Войти
+              </span>
             )}
           </p>
         )}
       </FormContainer>
 
       <SubText>
-        Уже есть аккаунт?{' '}
-        <span onClick={switchToSignIn} style={{ color: 'blue', cursor: 'pointer' }}>
+        Уже есть аккаунт?{" "}
+        <span
+          onClick={switchToSignIn}
+          style={{ color: "blue", cursor: "pointer" }}
+        >
           Войти
         </span>
       </SubText>
