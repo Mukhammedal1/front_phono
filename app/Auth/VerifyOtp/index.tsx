@@ -35,7 +35,7 @@ function VerifyOtp() {
     try {
       await handleVerifyOtp(phone, otp); // Telefon raqami va OTPni yuborish
       toast.success('Код успешно подтвержден!');
-      router.push('/Auth'); // Tasdiqlangandan keyin home sahifasiga o'tish
+      router.push('/Auth/signIn'); // Tasdiqlangandan keyin home sahifasiga o'tish
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.message || 'Ошибка при подтверждении кода.';

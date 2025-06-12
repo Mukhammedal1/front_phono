@@ -29,9 +29,8 @@ const SubmitSection = (props: any) => {
   const [deleted, setDeleted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const selectedPhone = localStorage.getItem("selectedPhoneNumber");
-
   const handleSubmit = () => {
+    const selectedPhone = localStorage.getItem("selectedPhoneNumber");
     setLoading(true);
     if (!formData.brandId && !formData.brand) {
       toast.error("Пожалуйста, выберите бренд");

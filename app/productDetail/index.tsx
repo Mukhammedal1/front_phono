@@ -59,7 +59,6 @@ const ProductDetail = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const { data: phones2 } = useGetAllPhones();
   const router = useRouter();
-  const selectedPhone = localStorage.getItem("selectedPhoneNumber");
 
 
   // console.log(phoneData)
@@ -108,6 +107,7 @@ const ProductDetail = () => {
   const handleLikeClick = () => {
     setLiked(!liked);
   };
+  const selectedPhone = localStorage.getItem("selectedPhoneNumber");
 
   return (
     <MainWrapper className="container">

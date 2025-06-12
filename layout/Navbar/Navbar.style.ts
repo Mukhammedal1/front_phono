@@ -14,14 +14,18 @@ export const NavbarWrapper = styled.div`
     font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
   }
+  .logo{
+    cursor: pointer;
+  }
 `;
 export const NavbarLink = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 40px;
+  cursor: pointer;
 
-  a.link-content {
+  .link-content {
     display: flex;
     align-items: center;
     gap: 12px;

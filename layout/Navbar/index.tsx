@@ -10,13 +10,36 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push("/createAdvertisement");
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    if (userData.accessToken) {
+      router.push("/createAdvertisement");
+    } else {
+      router.push("/Auth");
+    }
   };
 
   const handleUserNavigation = () => {
     const userData = JSON.parse(localStorage.getItem("user") || "{}");
     if (userData.accessToken) {
       router.push("/profile");
+    } else {
+      router.push("/Auth");
+    }
+  };
+
+  const handleUserNavigationFavorities = () => {
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    if (userData.accessToken) {
+      router.push("/favorites");
+    } else {
+      router.push("/Auth");
+    }
+  };
+
+  const handleUserNavigationChat = () => {
+    const userData = JSON.parse(localStorage.getItem("user") || "{}");
+    if (userData.accessToken) {
+      router.push("/chat");
     } else {
       router.push("/Auth");
     }
@@ -30,19 +53,22 @@ const Navbar = () => {
     <header>
       <div className="container">
         <NavbarWrapper>
-          <h2 onClick={handleClickHomePage}>Phono</h2>
-          <NavbarLink onClick={handleUserNavigation}>
-            <a href="/chat" className="link-content">
+          <h2 className="logo" onClick={handleClickHomePage}>Phono</h2>
+          <NavbarLink>
+            <div className="link-content" onClick={handleUserNavigationChat}>
               <HiOutlineMailOpen />
               <span>Сообщения</span>
-            </a>
-            <a href="/favorites" className="link-content">
+            </div>
+            <div
+              className="link-content"
+              onClick={handleUserNavigationFavorities}
+            >
               <GrFavorite />
-            </a>
-            <a href="/profile" className="link-content">
+            </div>
+            <div className="link-content" onClick={handleUserNavigation}>
               <FaRegUser />
               <span>Ваш профиль</span>
-            </a>
+            </div>
             <ButtonWrapper onClick={handleClick}>
               Добавить объявление
             </ButtonWrapper>
