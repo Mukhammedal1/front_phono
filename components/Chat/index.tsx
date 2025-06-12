@@ -6,7 +6,7 @@ interface ChatModalProps {
   isOpen: boolean
   onClose: () => void
   productOwner: {
-    name: string
+    firstName: string
     profileImage: string
     role: string
   }
@@ -42,13 +42,13 @@ export default function ChatModal({ isOpen, onClose, productOwner, product }: Ch
       setMessages([
         {
           id: 1,
-          text: `Hi! I'm jdiewij, the product owner for ${product.name}. How can I help you today?`,
+          text: `Hi! I'm ${productOwner.firstName}, the product owner for ${product.name}. How can I help you today?`,
           isUser: false,
           timestamp: new Date(),
         },
       ])
     }
-  }, [isOpen, productOwner?.name, product?.name, messages.length])
+  }, [isOpen, productOwner?.firstName, product?.name, messages.length])
 
   const handleSendMessage = () => {
     if (inputValue.trim()) {
@@ -93,6 +93,7 @@ export default function ChatModal({ isOpen, onClose, productOwner, product }: Ch
     }
   }
 
+  console.log("Product Owner:", productOwner)
   return (
     <>
       <Overlay isOpen={isOpen} onClick={onClose} />
@@ -100,9 +101,9 @@ export default function ChatModal({ isOpen, onClose, productOwner, product }: Ch
         <Header>
           <CloseButton onClick={onClose}>×</CloseButton>
           <OwnerInfo>
-            <OwnerImage src={productOwner?.profileImage} alt={productOwner?.name} />
+            <OwnerImage src={productOwner?.profileImage} alt={productOwner?.firstName} />
             <OwnerDetails>
-              <OwnerName>{productOwner?.name}</OwnerName>
+              <OwnerName>{productOwner?.firstName}</OwnerName>
               <OwnerRole>{productOwner?.role}</OwnerRole>
             </OwnerDetails>
           </OwnerInfo>
@@ -120,7 +121,7 @@ export default function ChatModal({ isOpen, onClose, productOwner, product }: Ch
           <MessagesContainer>
             {messages.length === 0 && (
               <WelcomeMessage>
-                Start a conversation with {productOwner?.name} about {product.name}
+                Start a conversation with {productOwner?.firstName} about {product.name}
               </WelcomeMessage>
             )}
 
